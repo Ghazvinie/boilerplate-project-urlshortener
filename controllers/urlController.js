@@ -2,33 +2,34 @@ const URLModel = require('../models/urlModel');
 const dns = require('dns');
 
 // Hanlde GET reqs
-function getURL(req, res) {
-    res.send('get');
-}
-
-// Hanlde POST reqs
-async function postURL(req, res) {
-    const originalURL = req.body.url;
-    const trimmedURL = originalURL.trim().toLowerCase().split('//');
+async function getURL(req, res) {
+    const short_url = req.params.short_url;
     let errors;
 
-    // Check if URL is valid
-    dns.lookup(trimmedURL[trimmedURL.length - 1], (error) => {
+
+    await URLModel.findOne({ shortURL: short_url }, (error, urlDoc) => {
         if (error) {
-            errors = handleErrors(error);
-            res.json(errors);
-            return;
+            console.log('Error searching database');
+        } else {
+            if (urlDoc == null) {
+                res.status(404).json('URL not found');
+            } else {
+                res.redirect(urlDoc.originalURL);
+            }
         }
     });
+}
 
+// Handle POST reqs
+async function postURL(req, res) {
+console.log(res.locals.originalURL)
     try {
         const shortURL = createRandomString();
-        await URLModel.create({ originalURL, shortURL });
-        res.json({ originalURL, shortURL });
+        await URLModel.create({ originalURL: res.locals.originalURL, shortURL });
+        res.status(201).json({ original_url: res.locals.originalURL, short_url: shortURL });
     } catch (error) {
-        console.log(error);
-        errors = handleErrors(error);
-        res.json(errors);
+        const errors = handleErrors(error);
+        res.status(400).json(errors);
     }
 }
 
@@ -41,11 +42,6 @@ function createRandomString() {
 // Handle any errors
 function handleErrors(error) {
     let errorObject = { error: '' };
-
-    if (error.code === 'ENOTFOUND') {
-        errorObject.error = 'invalid url';
-        return errorObject;
-    }
 
     if (error.keyPattern.hasOwnProperty('originalURL')) {
         errorObject.error = 'URL has already been shortened';
