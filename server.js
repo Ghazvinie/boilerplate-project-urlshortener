@@ -5,6 +5,7 @@ const app = express();
 const dns = require('dns');
 const mongoose = require('mongoose');
 const keys = require('./config/keys');
+const urlRoutes = require('./routes/urlRoutes');
 
 // Basic Configuration
 const port = process.env.PORT || 3000;
@@ -12,7 +13,7 @@ const port = process.env.PORT || 3000;
 // Connect to DB and then server listen
 mongoose.connect(keys.mongodb.MongoURI, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true })
   .then(() => {
-    console.log('Connected to db...')
+    console.log('Connected to db...');
     app.listen(port, function () {
       console.log(`Listening on port ${port}`);
     });
@@ -33,20 +34,23 @@ app.get('/api/hello', function (req, res) {
   res.json({ greeting: 'hello API' });
 });
 
-app.post('/api/shorturl', (req, res) => {
-  const shortURL = req.body.url.trim().tolowercase().split('//');
-  const randomString = Math.random().toString(16).substr(2, 8);
-  console.log(randomString);
+app.use('/api', urlRoutes);
 
-  dns.lookup(shortURL[shortURL.length - 1], (error) => {
-    if (error) {
-      res.json({ error: 'invalid url' });
-    }
-    else {
-      console.log('hello');
-    }
+// app.post('/api/shorturl', (req, res) => {
+//   const reqURL = req.body.url;
+//   const shortURL = reqURL.trim().toLowerCase().split('//');
 
-  });
-});
+
+//   dns.lookup(shortURL[shortURL.length - 1], (error) => {
+//     if (error) {
+//       console.log(error);
+//       res.json({ error: 'invalid url' });
+//     }
+//     else {
+//       console.log('hello');
+//     }
+
+//   });
+// });
 
 

@@ -1,16 +1,16 @@
-const mongoose = require('mongoose').Schema;
+const mongoose = require('mongoose');
 
-const URLSchema = new Schema({
+const URLSchema = new mongoose.Schema({
     
     originalURL: {
         type: String,
         required: true,
-        unique: true
+        unique: [true, 'URL already saved']
     },
     shortURL : {
         type: String,
         required: true,
-        unique: true
+        unique: [true, 'shortURL already taken']
     }
 });
 
