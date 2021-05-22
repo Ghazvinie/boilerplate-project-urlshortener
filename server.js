@@ -3,7 +3,15 @@ const express = require('express');
 const cors = require('cors');
 const app = express();
 const mongoose = require('mongoose');
+
+// Routes
 const urlRoutes = require('./routes/urlRoutes');
+
+// View engine
+app.set('view engine', 'ejs');
+app.set('views', './views');
+
+app.use(express.static('public'));
 
 // Basic Configuration
 const port = process.env.PORT || 3000;
@@ -21,15 +29,11 @@ mongoose.connect(process.env.DB_URI, { useNewUrlParser: true, useUnifiedTopology
 app.use(cors());
 
 app.use('/public', express.static(`${process.cwd()}/public`));
-app.use(express.urlencoded({ extended: true }))
+app.use(express.urlencoded({ extended: true }));
 
 app.get('/', function (req, res) {
-  res.sendFile(process.cwd() + '/views/index.html');
+  res.render('index');
 });
 
-// Your first API endpoint
-app.get('/api/hello', function (req, res) {
-  res.json({ greeting: 'hello API' });
-});
-
+// url Routes
 app.use('/api', urlRoutes);

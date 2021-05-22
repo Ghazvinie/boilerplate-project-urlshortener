@@ -1,11 +1,11 @@
 const URLModel = require('../models/urlModel');
 const dns = require('dns');
+const { reset } = require('nodemon');
 
-// Hanlde GET reqs
+// Handle GET reqs
 async function getURL(req, res) {
     const short_url = req.params.short_url;
     let errors;
-
 
     await URLModel.findOne({ shortURL: short_url }, (error, urlDoc) => {
         if (error) {
@@ -22,14 +22,19 @@ async function getURL(req, res) {
 
 // Handle POST reqs
 async function postURL(req, res) {
-console.log(res.locals.originalURL)
     try {
         const shortURL = createRandomString();
         await URLModel.create({ originalURL: res.locals.originalURL, shortURL });
-        res.status(201).json({ original_url: res.locals.originalURL, short_url: shortURL });
+        res.render('shorturl', { originalURL: res.locals.originalURL, shortURL, message: 'Your shortened URL!' });
     } catch (error) {
         const errors = handleErrors(error);
-        res.status(400).json(errors);
+        if (errors.error === 'URL has already been shortened') {
+            URLModel.findOne({ originalURL: res.locals.originalURL }, (error, doc) => {
+                if (error) console.log(error);
+
+                return res.render('shortURL', { originalURL: doc.originalURL, shortURL: doc.shortURL, message: 'URL has already been shortened!' })
+            });
+        }
     }
 }
 
@@ -57,7 +62,6 @@ function handleErrors(error) {
         console.log(error);
         return;
     }
-
 }
 
 module.exports = { getURL, postURL };

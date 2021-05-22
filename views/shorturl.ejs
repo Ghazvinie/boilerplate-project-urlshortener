@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title>URL Shortener</title>
+    <link href="/public/style.css" rel="stylesheet" type="text/css" />
+  </head>
+
+  <body>
+    <h1>URL Shortener</h1>
+    <main>
+      <section>
+          <fieldset>
+              <legend><%= message %></legend>
+            Original URL: <a href="<%= originalURL %>"><%= originalURL %></a>
+            <br> 
+            Short URL: <a href="./shorturl/<%= shortURL %>"><%= shortURL %>></a>
+          </fieldset>
+        </form>
+      </section>
+    </main>
+  </body>
+</html>
