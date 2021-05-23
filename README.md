@@ -1,1 +1,3 @@
-Based on the FreeCodeCamp [URL Shortener Microservice](https://www.freecodecamp.org/learn/apis-and-microservices/apis-and-microservices-projects/url-shortener-microservice)
+Based on the FreeCodeCamp [URL Shortener Microservice](https://www.freecodecamp.org/learn/apis-and-microservices/apis-and-microservices-projects/url-shortener-microservice) project.
+
+  $ npm run
