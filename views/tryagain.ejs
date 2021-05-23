@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title>URL Shortener</title>
+    <link href="/public/style.css" rel="stylesheet" type="text/css" />
+  </head>
+
+  <body>
+    <h1>URL Shortener</h1>
+    <main>
+      <section>
+        <form action="./shorturl" method="POST">
+          <fieldset>
+            <legend><%= message %></legend>
+            <label for="url_input">URL:</label>
+            <input id="url_input" type="text" name="url" placeholder="Please enter full address" required pattern='^(ftp|http|https):\/\/[^ "]+$'/>
+            <input type="submit" value="Shorten!" />
+          </fieldset>
+        </form>
+      </section>
+    </main>
+  </body>
+</html>
