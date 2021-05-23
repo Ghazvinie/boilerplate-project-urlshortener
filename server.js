@@ -1,6 +1,5 @@
 require('dotenv').config();
 const express = require('express');
-const cors = require('cors');
 const app = express();
 const mongoose = require('mongoose');
 
@@ -26,14 +25,16 @@ mongoose.connect(process.env.DB_URI, { useNewUrlParser: true, useUnifiedTopology
   })
   .catch((error) => console.log(error));
 
-app.use(cors());
-
+// Static files
 app.use('/public', express.static(`${process.cwd()}/public`));
+
+// Body parsing
 app.use(express.urlencoded({ extended: true }));
 
+// Root route
 app.get('/', function (req, res) {
-  res.render('index');
+  res.render('index', {message: 'Shorten your URL'});
 });
 
-// url Routes
+// URL routes
 app.use('/api', urlRoutes);

@@ -8,14 +8,14 @@ function urlValidator(req, res, next) {
     try {
         parsedURL = new URL(req.body.url);
     } catch (error) {
-        res.status(400).json({ error: 'invalid url' });
+        res.render('index', {message: 'Invalid URL, please try again'});
         return;
     }
 
     // Check host is valid
     dns.lookup(parsedURL.hostname, (error) => {
         if (error) {
-            res.status(400).json({ error: 'invalid url' });
+            res.render('index', {message: 'Invalid URL, please try again'});
         } else {
             res.locals.originalURL = req.body.url;
             next();

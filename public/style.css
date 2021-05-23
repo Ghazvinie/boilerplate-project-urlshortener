@@ -42,3 +42,7 @@ input[type='text'] {
   width: 220px;
   text-align: center;
 }
+
+input:invalid {
+  border: red solid 3px;
+}

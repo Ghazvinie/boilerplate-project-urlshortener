@@ -1,6 +1,5 @@
 const URLModel = require('../models/urlModel');
 const dns = require('dns');
-const { reset } = require('nodemon');
 
 // Handle GET reqs
 async function getURL(req, res) {
@@ -11,7 +10,7 @@ async function getURL(req, res) {
         if (error) {
             console.log('Error searching database');
         } else {
-            if (urlDoc == null) {
+            if (urlDoc === null) {
                 res.status(404).json('URL not found');
             } else {
                 res.redirect(urlDoc.originalURL);
@@ -31,8 +30,7 @@ async function postURL(req, res) {
         if (errors.error === 'URL has already been shortened') {
             URLModel.findOne({ originalURL: res.locals.originalURL }, (error, doc) => {
                 if (error) console.log(error);
-
-                return res.render('shortURL', { originalURL: doc.originalURL, shortURL: doc.shortURL, message: 'URL has already been shortened!' })
+                return res.render('shortURL', { originalURL: doc.originalURL, shortURL: doc.shortURL, message: 'URL has already been shortened!' });
             });
         }
     }

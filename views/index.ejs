@@ -12,9 +12,9 @@
       <section>
         <form action="api/shorturl" method="POST">
           <fieldset>
-            <legend>URL Shortener</legend>
+            <legend><%= message %></legend>
             <label for="url_input">URL:</label>
-            <input id="url_input" type="text" name="url" placeholder="Please enter full address" />
+            <input id="url_input" type="text" name="url" placeholder="Please enter full address" required pattern='^(ftp|http|https):\/\/[^ "]+$'/>
             <input type="submit" value="Shorten!" />
           </fieldset>
         </form>
