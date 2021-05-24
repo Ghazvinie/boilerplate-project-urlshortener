@@ -1,10 +1,10 @@
 const URLModel = require('../models/urlModel');
-const dns = require('dns');
+const handleErrors = require('../utils/handleError');
+const createRandomString = require('../utils/randomString');
 
 // Handle GET reqs
 async function getURL(req, res) {
     const short_url = req.params.short_url;
-    let errors;
 
     await URLModel.findOne({ shortURL: short_url }, (error, urlDoc) => {
         if (error) {
@@ -35,31 +35,5 @@ async function postURL(req, res) {
         }
     }
 }
-
-// Generate random string for short URL
-function createRandomString() {
-    const randomString = Math.random().toString(16).substr(2, 5);
-    return randomString;
-}
-
-// Handle any errors
-function handleErrors(error) {
-    let errorObject = { error: '' };
-
-    if (error.keyPattern.hasOwnProperty('originalURL')) {
-        errorObject.error = 'URL has already been shortened';
-        return errorObject;
-    }
-
-    if (error.keyPattern.hasOwnProperty('shortURL')) {
-        errorObject.error = 'shortURL already taken';
-        return errorObject;
-    }
-
-    else {
-        console.log(error);
-        return;
-    }
-}
-
+s
 module.exports = { getURL, postURL };
