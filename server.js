@@ -33,7 +33,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Root route
 app.get('/', function (req, res) {
-  res.render('index', {message: 'Shorten your URL'});
+  res.status(200)render('index', {message: 'Shorten your URL'});
 });
 
 // URL routes

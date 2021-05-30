@@ -13,7 +13,7 @@ async function getURL(req, res) {
             if (urlDoc === null) {
                 res.status(404).json('URL not found');
             } else {
-                res.redirect(urlDoc.originalURL);
+                res.status(302).redirect(urlDoc.originalURL);
             }
         }
     });
@@ -24,16 +24,16 @@ async function postURL(req, res) {
     try {
         const shortURL = createRandomString();
         await URLModel.create({ originalURL: res.locals.originalURL, shortURL });
-        res.render('shorturl', { originalURL: res.locals.originalURL, shortURL, message: 'Your shortened URL!' });
+        res.status(200).render('shorturl', { originalURL: res.locals.originalURL, shortURL, message: 'Your shortened URL!' });
     } catch (error) {
         const errors = handleErrors(error);
         if (errors.error === 'URL has already been shortened') {
             URLModel.findOne({ originalURL: res.locals.originalURL }, (error, doc) => {
                 if (error) console.log(error);
-                return res.render('shortURL', { originalURL: doc.originalURL, shortURL: doc.shortURL, message: 'URL has already been shortened!' });
+                return res.status(200)('shortURL', { originalURL: doc.originalURL, shortURL: doc.shortURL, message: 'URL has already been shortened!' });
             });
         }
     }
 }
-s
+
 module.exports = { getURL, postURL };
