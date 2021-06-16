@@ -1,3 +1,4 @@
+// Basic error handling
 function handleErrors(error) {
     let errorObject = { error: '' };
 
