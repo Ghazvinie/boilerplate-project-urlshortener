@@ -2,7 +2,7 @@ const URLModel = require('../models/urlModel');
 const handleErrors = require('../utils/handleError');
 const createRandomString = require('../utils/randomString');
 
-// Handle GET reqs
+// Handles 
 async function getURL(req, res) {
     const short_url = req.params.short_url;
 

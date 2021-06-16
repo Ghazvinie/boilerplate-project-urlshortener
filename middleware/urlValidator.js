@@ -5,7 +5,7 @@ function urlValidator(req, res, next) {
     const { hostname } = new URL(originalURL);
     dns.lookup(hostname, (error) => {
         if (error) {
-            res.status(400).json({ error: 'invalid url' });
+            res.status(400).render('index', { message: 'Invalid URL' });
         } else {
             res.locals.originalURL = originalURL;
             next();
