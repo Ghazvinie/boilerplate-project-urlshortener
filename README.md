@@ -3,7 +3,7 @@
 ### App functionality: 
 - Add a URL to the database
 - Recieve a shortened version of the URL
-- Use the short URL to access the original URL
+- Use the short URL to access the original URL - accessed through localhost:[PORT]/api/shorturl/[SHORT_URL]
 - Invalid URLs return an error
 
 ### Although based on a FCC project, the app has been extended:

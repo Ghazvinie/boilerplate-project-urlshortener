@@ -12,7 +12,7 @@ async function getURL(req, res) {
                 console.log('Error searching database');
             } else {
                 if (urlDoc === null) {
-                    res.status(404).json('URL not found');
+                    res.status(404).render('index', { message: 'URL not found' });
                 } else {
                     // Redirect to original URL
                     res.status(302).redirect(urlDoc.originalURL);
